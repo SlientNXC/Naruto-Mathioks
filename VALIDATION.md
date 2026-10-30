@@ -13,9 +13,11 @@
 | Updated fast-profile game/control binary build | Passed: 0.1.1 game rebuilt in 5m53s |
 | Source redistribution audit | Passed: 22 files, 0 failures, 0 warnings |
 | Native 0.1.1 package | Passed the pinned Horizon `Bundle::read` validator; 11 source entries |
-| GitHub source-link import | 0.1.0 passed; updated 0.1.1 link import pending |
+| GitHub source-link import | Passed on Horizon Launcher 0.2.29 in a separate launcher folder; installed 0.1.1 |
 
 Build target: Horizon `34118b285fee43f88d39824e78069902b3d508ed`, horizon-mixins `3f99a5c60dfa311cc365524c44ae2fd799bfa1de`, Rust 1.99.1, Windows x64 GNU. The local fast build omits optional audio/controller features. Normal launcher builds use the launcher's supported feature selection.
+
+The bare repository link resolved to native-source commit `d0e480ca7909fc8a48607dafe9010a1683c3a682`. All 10 installed Rust/TOML files matched the local source byte for byte. The launcher-generated bundle SHA-256 was `fa53a23dbd332346dd6e4b85b7657dbf60053f73d628bf861c45f945c6d032ea`. The separately packaged deterministic local `.hnmod` was `beac7d33c0244a9f3177d890789213adf56226f91217ab31b7f612df30c2664e` (different archive packaging, same native source). Later documentation-only commits do not change this source.
 
 ## Running-game observations
 
