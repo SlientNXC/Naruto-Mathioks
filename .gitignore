@@ -1,0 +1,10 @@
+/target/
+*.jar
+*.class
+*.java
+.local/
+*.exe
+*.dll
+*.log
+*.png
+*.ogg
