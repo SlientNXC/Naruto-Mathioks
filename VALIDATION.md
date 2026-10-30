@@ -1,29 +1,45 @@
 # Validation status — 30 October 2026
 
-**Development prototype. The original mod has not been fully ported. No in-game gameplay test has passed yet.**
+**Version 0.1.1 is an in-game-tested development prototype. Most of the original Mathioks mod remains unported. No original-mod runtime parity comparison has been performed.**
+
+## Build and import
 
 | Check | Result |
 | --- | --- |
-| Original author's jar provenance and metadata | Verified; details in the accompanying requirements report |
+| Original author's jar provenance and metadata | Verified; see ORIGINAL-MOD.md |
 | Standalone chakra/progression/jutsu mechanics tests | 8 passed, 0 failed |
-| Standalone Rust formatting | Passed |
-| Standalone Clippy with warnings denied | Passed; environment emitted a cache hard-link fallback warning |
-| Source redistribution audit | Passed: no failures and no warnings |
+| Standalone Rust formatting and Clippy with warnings denied | Passed |
 | Pinned Horizon AST integration | Passed: 7 hooks, 2 support modules |
-| Horizon game source compilation check | Passed; visibility warnings were subsequently corrected |
-| Updated fast-profile game/control binary build | Passed: both executables built successfully in 9m52s |
-| Native `.hnmod` package | Passed the pinned Horizon `Bundle::read` validator; 11 entries |
-| Built game launch API startup | Passed; the built executable returned its launch API |
-| GitHub source-link import in Horizon Launcher | Passed on Launcher 0.2.29 in an isolated test folder |
-| Actual in-game verification | Not performed; prepared Minecraft resources/ownership verification needed |
-| Comparison with the original mod running in Forge | Not performed |
+| Updated fast-profile game/control binary build | Passed: 0.1.1 game rebuilt in 5m53s |
+| Source redistribution audit | Passed: 22 files, 0 failures, 0 warnings |
+| Native 0.1.1 package | Passed the pinned Horizon `Bundle::read` validator; 11 source entries |
+| GitHub source-link import | 0.1.0 passed; updated 0.1.1 link import pending |
 
-Build target: Horizon `34118b285fee43f88d39824e78069902b3d508ed`, horizon-mixins `3f99a5c60dfa311cc365524c44ae2fd799bfa1de`, Rust 1.99.1, Windows x64 GNU. The local fast build omits optional audio/controller features; players' normal launcher builds use the launcher's supported feature selection.
+Build target: Horizon `34118b285fee43f88d39824e78069902b3d508ed`, horizon-mixins `3f99a5c60dfa311cc365524c44ae2fd799bfa1de`, Rust 1.99.1, Windows x64 GNU. The local fast build omits optional audio/controller features. Normal launcher builds use the launcher's supported feature selection.
 
-No player worlds or existing game settings have been modified. Build/export/test files use isolated workspace folders. Original jars, inspected Java and assets are excluded from this repository.
+## Running-game observations
 
-The bare repository link resolved to source commit `ae1cc4b2250cdad4f85e202664b737b27ef00c29` and installed `naruto_horizon 0.1.0`. Every imported Rust/TOML source file matched the local validated source byte for byte. The launcher's generated bundle SHA-256 was `c01aac7f9441026ca3a4eb196f713854e5296dda30c3b4d22d741ba91b0aea31`; the separately packaged local `.hnmod` was `e31ea7e56ce15c7f71af303b6fa0ae3147401131ba3b88c4fc8362a2d1e0b8c7` (different archive packaging, same native source).
+Tests used the actual modded Horizon executable with its documented offscreen renderer and local control API, a new isolated Creative world, and privately copied prepared Minecraft 26.3 resources. Screenshots were captured and visually inspected. No existing player world, account file or installed game setting was modified.
 
-The final source redistribution audit passed with 0 failures and 0 warnings. Later documentation-only commits do not change the native bundle source.
+The first test of 0.1.0 found that the mod mistook an integrated server for a dedicated server. That version refused all character commands. Version 0.1.1 checks Horizon's explicit execution role and passed the B-key regression test.
 
-The launcher still reported the signed-in Minecraft account's ownership as unverified during the final read-only check. Authentication checks have not been bypassed. In-game testing, screenshots, and original-mod parity checks remain pending.
+| Action | Observed result in 0.1.1 |
+| --- | --- |
+| B: create character | Level 0, 25/25 chakra, Ninjutsu 25, SP 0, JP 0 |
+| Train once, then advance one server tick | Chakra 21, level 1, XP 0, SP 1, JP 1; includes the eligible passive recovery |
+| Spend one skill point | Ninjutsu increased to 26; SP became 0 |
+| Creative test setup | `/naruto demo` set Ninjutsu/chakra to 600 for combat checks |
+| Rasengan against a 100-HP iron golem | Health 100 → 90; chakra 600 → 573; knockback moved the mob away |
+| Cast again during cooldown | Rejected with a wait message; no additional chakra spent |
+| Chidori without an in-range target | Rejected; chakra remained 573 |
+| Chidori against the same golem, returned into range | Health 90 → 55; chakra 573 → 472 |
+| Fireball after resetting the Creative setup | Visible native fireball projectile; chakra 600 → 589 |
+| Charge for 10 server ticks | Chakra 589 → 590 |
+| N and R keys | Jutsu selection changed; charging stopped |
+| Close and reopen the executable | Level 1, Ninjutsu 600, SP 0, JP 1 and Rasengan selection restored; chakra 590 restored and naturally regenerated to 591 |
+| J key after reload | Rasengan cast through the normal input path; test mob health 55 → 45 |
+| Switch to a new world, then return | New world started at level 0 with 25/25 chakra; original world retained level 1, Ninjutsu 600 and its own spent-chakra value |
+
+The three attacks remain partial implementations. These observations do not establish original flight, explosion, dash, paralysis, animation or progression parity. Fireball's original damage scaling is not implemented; its standalone helper formula is not used by the native projectile.
+
+The original Forge mod has not been run as a comparison oracle. Multiplayer, other original content, full normal-launcher account preparation and other hardware configurations remain untested. The launcher's last account summary reported ownership as unverified; no authentication or ownership check was changed. Development testing used prepared resources already available locally through the launcher's normal preparation path.

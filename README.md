@@ -22,6 +22,8 @@ https://github.com/SlientNXC/Naruto-Mathioks
 
 Review the native-code notice and build the native instance. The first build can take 20–30 minutes. This project pins Horizon commit `34118b285fee43f88d39824e78069902b3d508ed` and horizon-mixins commit `3f99a5c60dfa311cc365524c44ae2fd799bfa1de`. See [VALIDATION.md](VALIDATION.md) for whether the import, build and gameplay checks have actually passed. This link delivers the unfinished prototype described here, not the entire original mod.
 
+Current version: **0.1.1**. Update and rebuild an existing 0.1.0 installation: that first version incorrectly refused character creation in single-player. Version 0.1.1 has been exercised in a running isolated Horizon world, including character creation, a level-up, skill spending, all three jutsu and chakra charging. These checks cover the prototype behavior only.
+
 ## Controls
 
 | Key | Action |
@@ -38,6 +40,12 @@ Keys can be rebound in Options → Mods. `/naruto help` lists commands. `/naruto
 `cargo test`, `cargo clippy --all-targets -- -D warnings`, and `cargo fmt --check` check the standalone mechanics. Apply the mixin bundle with the pinned horizon-mixins to a separate export of the pinned Horizon source, then compile that staged game. `node tools/package.cjs` creates a deterministic source-only `.hnmod` in `target/`.
 
 Successful mechanics tests and source compilation do not establish gameplay parity or prove an in-game test. See [VALIDATION.md](VALIDATION.md) for the actual results of this work session.
+
+`tools/gameplay-smoke.ps1` provides a B-key character/status regression check through Horizon's local control API. Run it only against a separately launched Creative test world, passing the control executable and socket paths. Native `/naruto` commands must be sent through the control API's `chat` operation; its direct `command` operation uses a different dispatcher.
+
+## Remove or disable
+
+Disable or remove the mod in the launcher and rebuild the native instance. The separate `naruto-horizon` folder in each test world retains this mod's character data; removing the mod does not delete that progress. Keep a backup before changing mods or game revisions.
 
 ## Credits
 

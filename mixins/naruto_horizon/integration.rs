@@ -143,7 +143,7 @@ pub(super) fn tick(game: &mut Game<'_>) {
 
 pub(super) fn mods(mods: &mut Vec<super::native_hooks::NativeMod>) {
     mods.push(super::native_hooks::NativeMod {
-        id: ID.into(), title: "Naruto Horizon 0.1.0 — unfinished prototype".into(),
+        id: ID.into(), title: "Naruto Horizon 0.1.1 — unfinished prototype".into(),
         description: "Independent adaptation of a small part of Mathioks' original Naruto mod. Chakra, progression and three jutsu prototypes. Story, clans and most content are not ported. Single-player only. /naruto help".into(),
         keys: vec![
             ["start".into(), "Begin / character status".into(), "key.keyboard.b".into()],
@@ -275,7 +275,9 @@ pub(super) fn command(
     }
     *ran = true;
     // This first development slice is limited to the integrated server.
-    if game.options.dedicated.is_some() || game.native_server_players().len() > 1 {
+    if game.options.execution_role != super::execution_role::ExecutionRole::IntegratedServer
+        || game.native_server_players().len() > 1
+    {
         answer(
             game,
             "This Naruto Horizon prototype supports single-player worlds only.",
@@ -286,7 +288,7 @@ pub(super) fn command(
     if action == "help" {
         answer(
             game,
-            "Naruto Horizon 0.1.0: unfinished native prototype, not the full Mathioks mod.",
+            "Naruto Horizon 0.1.1: unfinished native prototype, not the full Mathioks mod.",
         );
         answer(
             game,
