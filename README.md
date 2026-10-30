@@ -2,6 +2,8 @@
 
 This is an independent **development prototype** of a small part of Mathioks' original Naruto Anime Mod. It is not the complete mod, not an official Mathioks release, and not a drop-in conversion of the Java jar. Most original content remains unported. Read [COVERAGE.md](COVERAGE.md) before installing.
 
+The original release and its requirements are documented in [ORIGINAL-MOD.md](ORIGINAL-MOD.md).
+
 ## What exists
 
 - Native Rust character state, saved separately in each world's `naruto-horizon/characters.json`.
